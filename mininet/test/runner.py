@@ -9,14 +9,12 @@ Run all mininet core tests
 from unittest import defaultTestLoader, TextTestRunner
 import os
 import sys
-from mininet.util import ensureRoot
 from mininet.clean import cleanup
 from mininet.log import setLogLevel
 
 def runTests( testDir, verbosity=1 ):
     "discover and run all tests in testDir"
     # ensure root and cleanup before starting tests
-    ensureRoot()
     cleanup()
     # discover all tests in testDir
     testSuite = defaultTestLoader.discover( testDir )

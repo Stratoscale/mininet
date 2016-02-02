@@ -11,6 +11,7 @@ from fcntl import fcntl, F_GETFL, F_SETFL
 from os import O_NONBLOCK
 import os
 from functools import partial
+import shlex
 
 # Command execution support
 
@@ -129,6 +130,9 @@ def errFail( *cmd, **kwargs ):
 
 def quietRun( cmd, **kwargs ):
     "Run a command and return merged stdout and stderr"
+    if isinstance( cmd, str ):
+        cmd = shlex.split(cmd)
+    cmd = ["sudo", "-E", "env", "PATH=%s" % os.environ["PATH"]] + cmd
     return errRun( cmd, stderr=STDOUT, **kwargs )[ 0 ]
 
 # pylint: enable=maybe-no-member

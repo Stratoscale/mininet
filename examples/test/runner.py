@@ -9,7 +9,6 @@ Run all mininet.examples tests
 import unittest
 import os
 import sys
-from mininet.util import ensureRoot
 from mininet.clean import cleanup
 
 class MininetTestResult( unittest.TextTestResult ):
@@ -26,8 +25,7 @@ class MininetTestRunner( unittest.TextTestRunner ):
 
 def runTests( testDir, verbosity=1 ):
     "discover and run all tests in testDir"
-    # ensure root and cleanup before starting tests
-    ensureRoot()
+    # cleanup before starting tests
     cleanup()
     # discover all tests in testDir
     testSuite = unittest.defaultTestLoader.discover( testDir )

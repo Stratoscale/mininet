@@ -102,7 +102,7 @@ from mininet.node import ( Node, Host, OVSKernelSwitch, DefaultController,
                            Controller )
 from mininet.nodelib import NAT
 from mininet.link import Link, Intf
-from mininet.util import ( quietRun, fixLimits, numCores, ensureRoot,
+from mininet.util import ( quietRun, fixLimits, numCores,
                            macColonHex, ipStr, ipParse, netParse, ipAdd,
                            waitListening )
 from mininet.term import cleanUpScreens, makeTerms
@@ -869,7 +869,6 @@ class Mininet( object ):
         "Initialize Mininet"
         if cls.inited:
             return
-        ensureRoot()
         fixLimits()
         cls.inited = True
 

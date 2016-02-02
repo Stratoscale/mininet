@@ -136,6 +136,7 @@ class Node( object ):
         # prompt is set to sentinel chr( 127 )
         cmd = [ 'mnexec', opts, 'env', 'PS1=' + chr( 127 ),
                 'bash', '--norc', '-is', 'mininet:' + self.name ]
+        cmd = ["sudo", "-E", "env", "PATH=%s" % os.environ["PATH"]] + cmd
         # Spawn a shell subprocess in a pseudo-tty, to disable buffering
         # in the subprocess and insulate it from signals (e.g. SIGINT)
         # received by the parent
@@ -162,6 +163,7 @@ class Node( object ):
             if data[ -1 ] == chr( 127 ):
                 break
             self.pollOut.poll()
+        self.pid = int( self.cmd( 'echo $$' ).split('\n')[1] )
         self.waiting = False
         # +m: disable job control notification
         self.cmd( 'unset HISTFILE; stty -echo; set +m' )
@@ -247,7 +249,7 @@ class Node( object ):
         self.unmountPrivateDirs()
         if self.shell:
             if self.shell.poll() is None:
-                os.killpg( self.shell.pid, signal.SIGHUP )
+                quietRun( 'kill ' + str( self.shell.pid ) )
         self.cleanup()
 
     def stop( self, deleteIntfs=False ):
